@@ -34,7 +34,7 @@ jobs:
     steps:
       - name: 'Deploy to Azure Web App'
         id: deploy-to-webapp
-        uses: azure/webapps-deploy@v2
+        uses: azure/functions-deploy@v2
         with:
           name: node-app
           app-name: ${{ env.AZURE_WEBAPP_NAME }}
