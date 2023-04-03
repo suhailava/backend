@@ -20,7 +20,6 @@ jobs:
 
     - name: 'Resolve Project Dependencies Using Npm'
       run: |
-        pushd './${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}'
         npm install
         popd
 
@@ -28,5 +27,5 @@ jobs:
       uses: azure/functions-action@v1
       with:
         app-name: 'manuniv'
-        package: ${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}
+        package: .
         publish-profile: ${{ secrets.AZURE_FUNCTIONAPP_PUBLISH_PROFILE }} # Remove publish-profile to use Azure RBAC
