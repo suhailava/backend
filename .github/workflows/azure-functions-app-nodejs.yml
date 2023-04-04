@@ -7,7 +7,7 @@ on:
 
 jobs:
   build-and-deploy:
-    runs-on: windows-latest
+    runs-on: Windows-latest
     steps:
      - name: Checkout repository
        uses: actions/setup-node@v1
@@ -20,7 +20,7 @@ jobs:
          node-version: '18.x'
           
      - name: Install dependencies
-       run:: npm install
+       run: npm install
         
      - name: Deploy to Azure Function App
        uses: azure/functions-action@v1
