@@ -1,3 +1,5 @@
+name: Deploy Azure Functions
+
 on:
   push:
     branches:
@@ -5,33 +7,30 @@ on:
 
 env:
   AZURE_FUNCTIONAPP_NAME: 'MANUNIV-PROD-EUS2-FUNC'
-  AZURE_FUNCTIONAPP_PACKAGE_PATH: '.'
+  AZURE_FUNCTIONAPP_PACKAGE_PATH: 'C:\Users\Suhailkhan.N\Downloads\Node project (1) (1).zip'
 
 jobs:
   build-and-deploy:
     runs-on: windows-latest
+
     steps:
-      - uses: actions/checkout@v2
-      
-      - name: Set up Node.js version
+      - name: Checkout the code
+        uses: actions/checkout@v2
+
+      - name: Setup Node.js
         uses: actions/setup-node@v2
         with:
           node-version: '18.x'
-          
-      - name: npm install
+
+      - name: Build and publish
         run: |
           npm install
-          
-      - name: Set up Azure Functions extension
-        uses: azure/functions-action@v1
-        with:
-          app-name: ${{ env.AZURE_FUNCTIONAPP_NAME }}
-          publish-profile: ${{ secrets.AZURE_FUNCTIONAPP_PUBLISH_PROFILE }}
-          package: ${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}
-          
+          npm run build
+          cd dist && zip -r ../functionapp.zip . && cd ..
+
       - name: Deploy to Azure Functions
         uses: azure/webapps-deploy@v2
         with:
           app-name: ${{ env.AZURE_FUNCTIONAPP_NAME }}
-          publish-profile: ${{ secrets.AZURE_FUNCTIONAPP_PUBLISH_PROFILE }}
           package: ${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}
+          publish-profile: ${{ secrets.AZURE_FUNCTIONAPP_PUBLISH_PROFILE }}
