@@ -1,0 +1,33 @@
+
+name: Deploy Node.js project to Azure Function App
+
+on:
+  push:
+    branches:
+    - ["main"]
+
+
+jobs:
+  build-and-deploy:
+    runs-on: windows-latest # For Linux, use ubuntu-latest
+    environment: main
+    steps:
+    - name: 'Checkout GitHub Action'
+      uses: actions/checkout@v3
+
+    - name: Setup Node 18.x Environment
+      uses: actions/setup-node@v3
+      with:
+        node-version: '18.x'
+
+    - name: 'Resolve Project Dependencies Using Npm'
+      run: |
+        npm install
+        
+
+    - name: 'Run Azure Functions Action'
+      uses: Azure/functions-action@v1
+      with:
+        app-name: 'MANUNIV-PROD-EUS2-FUNC'
+        package: .
+        publish-profile: ${{ secrets.AZURE_FUNCTIONAPP_PUBLISH_PROFILE }} 
