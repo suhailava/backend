@@ -26,7 +26,7 @@ jobs:
         run: |
           npm install
           npm run build
-          cd dist && zip -r ../functionapp.zip . && cd ..
+          
 
       - name: Deploy to Azure Functions
         uses: azure/webapps-deploy@v2
